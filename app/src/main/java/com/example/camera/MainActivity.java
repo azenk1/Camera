@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     StorageReference mStorageRef;
     String currentPhotoPath;
+    Uri photoURI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,43 +49,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static final int REQUEST_TAKE_PHOTO = 1;
-    private void dispatchPictureIntent() {
+    public void dispatchPictureIntent() {
 
         //New Intent instance. ACTION_IMAGE_CAPTURE is intent action sent as parameter
         //to instruct camera application of target environment to capture an image and
         //return it.
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        //Is a camera activity available to handle this intent?
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+        try {
+            //Is a camera activity available to handle this intent?
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                //.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
-            File photoFile = null;
-            try{
-                photoFile = createImageFile();
-            } catch (IOException ex)
-            {
 
-                Context context = getApplicationContext();
-                CharSequence text = "Unable to create image file. Contact Al.";
-                int duration = Toast.LENGTH_LONG;
+                File photoFile = null;
+                try{
+                    photoFile = createImageFile();
+                } catch (IOException ex)
+                {
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                    Context context = getApplicationContext();
+                    CharSequence text = "Unable to create image file. Contact Al.";
+                    int duration = Toast.LENGTH_LONG;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
+                //Was photo file created successfully?
+                if (photoFile != null)
+                {
+                    photoURI = FileProvider.getUriForFile(this,
+                            "com.example.camera.android.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+
+                }
             }
+        } catch(Exception ex)
+        {
+            Context context = getApplicationContext();
+            CharSequence text = ex.getMessage();
+            int duration = Toast.LENGTH_LONG;
 
-            //Was photo file created successfully?
-            if (photoFile != null)
-            {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-
-            }
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
+
     }
 
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -98,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+*/
 
     private File createImageFile() throws IOException
     {
