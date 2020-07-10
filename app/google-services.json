@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:657996099989:android:ca298353c1f831e15f469c",
         "android_client_info": {
-          "package_name": "com.example.camera"
+          "package_name": "com.lincoln.camera"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "657996099989-d6da1fju5g4l9ajktusadgq19joak6ma.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.camera",
+            "package_name": "com.lincoln.camera",
             "certificate_hash": "cbe5bba5fdb46f57e89d3ab7fce07392517bcf64"
           }
         },
