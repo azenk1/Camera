@@ -1,27 +1,19 @@
-package com.example.camera;
+package com.lincoln.camera;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
     public void dispatchPictureIntent() {
 
         //New Intent instance. ACTION_IMAGE_CAPTURE is intent action sent as parameter
-        //to instruct camera application of target environment to capture an image and
+        //to instruct com.lincoln.camera application of target environment to capture an image and
         //return it.
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {
-            //Is a camera activity available to handle this intent?
+            //Is a com.lincoln.camera activity available to handle this intent?
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 //.startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
@@ -80,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 if (photoFile != null)
                 {
                     photoURI = FileProvider.getUriForFile(this,
-                            "com.example.camera.android.fileprovider",
+                            "com.lincoln.camera.android.fileprovider",
                             photoFile);
                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                     startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
